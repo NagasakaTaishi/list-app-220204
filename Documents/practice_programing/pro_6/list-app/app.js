@@ -7,10 +7,10 @@ app.use(express.static('public'));
 app.use(express.urlencoded({extended: false}));
 
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'Kasagana',
-  database: 'list_app'
+  host: 'us-cdbr-east-05.cleardb.net',
+  user: 'be3bb2a082f868',
+  password: '59454d69',
+  database: 'heroku_2106127c0647041'
 });
 
 app.get('/', (req, res) => {
