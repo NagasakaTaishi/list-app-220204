@@ -1,45 +1,18 @@
 const express = require('express');
 const mysql = require('mysql');
 const app = express();
-const db_config = {
-  host: 'us-cdbr-east-05.cleardb.net',
-  user: 'be3bb2a082f868',
-  password: '59454d69',
-  database: 'heroku_2106127c0647041'
-};
+
 const PORT = process.env.PORT || 5000
 
 app.use(express.static('public'));
 app.use(express.urlencoded({extended: false}));
 
-const connection;
-
-function handleDisconnect() {
-  console.log('INFO.CONNECTION_DB: ');
-  connection= mysql.createConnection(db_config);
-
-  //connection取得
-  connection.connect(function(err) {
-    if (err) {
-        console.log('ERROR.CONNECTION_DB: ', err);
-        setTimeout(handleDisconnect, 1000);
-    }
+const connection = mysql.createConnection({
+  host: 'us-cdbr-east-05.cleardb.net',
+  user: 'be3bb2a082f868',
+  password: '59454d69',
+  database: 'heroku_2106127c0647041'
 });
-
-//error('PROTOCOL_CONNECTION_LOST')時に再接続
-connection.on('error', function(err) {
-    console.log('ERROR.DB: ', err);
-    if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-        console.log('ERROR.CONNECTION_LOST: ', err);
-        handleDisconnect();
-    } else {
-        throw err;
-    }
-});
-
-}
-
-handleDisconnect();
 
 app.get('/', (req, res) => {
   res.render('top.ejs');
